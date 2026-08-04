@@ -615,20 +615,7 @@
     </div>
   </section>
 
-  <!-- ═══════════════ BOTÓN FLOTANTE DE AUDIO ═══════════════ -->
-  <button id="audioToggle" type="button" aria-label="Reproducir música" title="Música de fondo">
-    <svg id="iconMusic" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white spin" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M9 18V5l12-2v13" />
-      <circle cx="6" cy="18" r="3" />
-      <circle cx="18" cy="16" r="3" />
-    </svg>
-    <svg id="iconPause" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
-    </svg>
-  </button>
-
-  <!-- Elemento de audio oculto -->
-  <audio id="bgMusic" loop preload="auto" src="musica-fondo.mp3"></audio>
+  <audio id="bgMusic" loop autoplay preload="auto" src="musica-fondo.mp3"></audio>
 
   <!-- ═══════════════ SCRIPTS ═══════════════ -->
   <script>
@@ -717,28 +704,21 @@
 
     startAuto();
 
-    /* ---------- Música de Fondo (autoplay desde el inicio) ---------- */
+    /* ---------- Música de Fondo (reproducción automática) ---------- */
     const bgMusic = document.getElementById('bgMusic');
-    const audioBtn = document.getElementById('audioToggle');
-    const iconMusic = document.getElementById('iconMusic');
-    const iconPause = document.getElementById('iconPause');
-
-    function toggleUI(playing) {
-      iconMusic.classList.toggle('hidden', playing);
-      iconPause.classList.toggle('hidden', !playing);
-    }
 
     // Intento de reproducción automática al cargar la página.
     function tryAutoplay() {
       if (!bgMusic.paused) return;
-      bgMusic.play().then(() => toggleUI(true)).catch(() => {});
+      bgMusic.play().catch(() => {});
     }
 
     // Se intenta reproducir inmediatamente al abrir la página.
     tryAutoplay();
 
     // Los navegadores bloquean el autoplay con sonido hasta que el usuario interactúa.
-    // Por eso también intentamos reproducir en la primera interacción (clic/toque/scroll).
+    // Por eso también intentamos reproducir en la primera interacción (clic/toque/scroll),
+    // de modo que la música siempre suene sin necesidad de ningún botón.
     const firstInteractions = ['click', 'touchstart', 'scroll', 'keydown'];
     const startOnInteraction = () => { tryAutoplay(); removeInteractionListeners(); };
 
@@ -750,19 +730,6 @@
     }
 
     addInteractionListeners();
-
-    audioBtn.addEventListener('click', () => {
-      const willPlay = bgMusic.paused;
-      if (willPlay) {
-        bgMusic.play().catch(() => {});
-      } else {
-        bgMusic.pause();
-      }
-      toggleUI(willPlay);
-    });
-
-    bgMusic.addEventListener('play', () => toggleUI(true));
-    bgMusic.addEventListener('pause', () => toggleUI(false));
 
     /* ---------- Animaciones al hacer scroll (AOS-like ligero) ---------- */
     const observer = new IntersectionObserver((entries) => {
