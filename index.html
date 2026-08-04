@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pascual &amp; Judith · Bodas de Plata</title>
+  <meta name="description" content="Invitación digital a las Bodas de Plata de Pascual y Judith — 25 Años de Amor." />
+
+  <!-- Google Fonts: Playfair Display (serif) + Montserrat (sans-serif) + Great Vibes (script) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Montserrat:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ivory: '#FAF8F5',
+            silver: '#C0C0C0',
+            'silver-soft': '#D1D5DB',
+            ink: '#1E293B',
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'serif'],
+            garamond: ['"Cormorant Garamond"', 'serif'],
+            script: ['"Great Vibes"', 'cursive'],
+            sans: ['Montserrat', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --ivory: #FAF8F5;
+      --silver: #C0C0C0;
+      --silver-soft: #D1D5DB;
+      --ink: #1E293B;
+      --gold: #C9A96A;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--ivory);
+      color: var(--ink);
+    }
+
+    /* ------- Texto con gradiente metálico plata ---------- */
+    .text-foil {
+      background: linear-gradient(115deg, #8A8F98 0%, #C0C0C0 22%, #F5F5F5 45%, #D1D5DB 62%, #9CA3AF 82%, #B8BCC4 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      background-size: 200% auto;
+      animation: foil-shimmer 6s linear infinite;
+    }
+    @keyframes foil-shimmer {
+      0%   { background-position: 0% center; }
+      100% { background-position: -200% center; }
+    }
+
+    /* ------- Línea divisoria con floritura ---------- */
+    .foil-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(192,192,192,.9), transparent);
+      position: relative;
+    }
+    .foil-divider::after {
+      content: '❖';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--ivory);
+      padding: 0 14px;
+      color: var(--silver);
+      font-size: 13px;
+    }
+    .divider-dark::after { background: #1E293B; color: var(--silver); }
+
+    /* ------- Botones con barrido metálico ---------- */
+    .btn-shine {
+      position: relative;
+      overflow: hidden;
+      transition: transform .35s ease, box-shadow .35s ease, background .35s ease;
+    }
+    .btn-shine::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -80%;
+      width: 45%; height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,.6), transparent);
+      transform: skewX(-20deg);
+      transition: left .65s ease;
+    }
+    .btn-shine:hover::after { left: 135%; }
+    .btn-shine:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 30px -12px rgba(30,41,59,.35);
+    }
+
+    /* ------- Fondo con textura de papel + destellos ---------- */
+    .paper-bg {
+      background-color: var(--ivory);
+      background-image:
+        radial-gradient(circle at 15% 12%, rgba(192,192,192,.10) 0, transparent 38%),
+        radial-gradient(circle at 85% 30%, rgba(209,213,219,.12) 0, transparent 42%),
+        radial-gradient(circle at 50% 90%, rgba(192,192,192,.08) 0, transparent 45%);
+    }
+
+    /* ------- Preloader ---------- */
+    #preloader {
+      position: fixed; inset: 0; z-index: 100;
+      background: var(--ivory);
+      display: grid; place-items: center;
+      transition: opacity .8s ease, visibility .8s ease;
+    }
+    #preloader.hide { opacity: 0; visibility: hidden; }
+    .loader-ring {
+      width: 90px; height: 90px;
+      border-radius: 9999px;
+      border: 1px solid rgba(192,192,192,.4);
+      border-top-color: var(--silver);
+      animation: spin 1.4s linear infinite;
+    }
+    .loader-mono {
+      position: absolute;
+      font-family: 'Great Vibes', cursive;
+      font-size: 2rem;
+      color: var(--ink);
+      animation: pulse-soft 1.6s ease-in-out infinite;
+    }
+    @keyframes pulse-soft { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+
+    /* ------- Navegación fija ---------- */
+    #topnav {
+      transition: background .4s ease, box-shadow .4s ease, backdrop-filter .4s ease, padding .4s ease;
+    }
+    #topnav.scrolled {
+      background: rgba(250,248,245,.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 8px 30px -18px rgba(30,41,59,.25);
+    }
+
+    /* ------- Entrada al hacer scroll ---------- */
+    [data-aos] {
+      opacity: 0;
+      transform: translateY(34px);
+      transition: opacity .9s cubic-bezier(.22,.61,.36,1), transform .9s cubic-bezier(.22,.61,.36,1);
+    }
+    [data-aos="fade-down"] { transform: translateY(-34px); }
+    [data-aos="zoom-in"]   { transform: scale(.86); }
+    [data-aos="fade-left"] { transform: translateX(40px); }
+    [data-aos="fade-right"]{ transform: translateX(-40px); }
+    [data-aos].aos-animate {
+      opacity: 1;
+      transform: translate(0,0) scale(1);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      [data-aos] { opacity: 1; transform: none; transition: none; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* ------- Carrusel ---------- */
+    .carousel-slide {
+      position: absolute; inset: 0;
+      opacity: 0;
+      transition: opacity 1s ease, transform 1.2s ease;
+      transform: scale(1.04);
+      pointer-events: none;
+    }
+    .carousel-slide.active {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+    .carousel-dot {
+      width: 8px; height: 8px;
+      border-radius: 9999px;
+      background: rgba(30,41,59,.22);
+      transition: all .35s ease;
+      cursor: pointer;
+    }
+    .carousel-dot.active {
+      width: 26px;
+      background: linear-gradient(90deg, #9CA3AF, #C0C0C0);
+    }
+    .carousel-btn {
+      width: 2.75rem; height: 2.75rem;
+      border-radius: 9999px;
+      background: rgba(250,248,245,.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(192,192,192,.5);
+      display: grid; place-items: center;
+      color: var(--ink);
+      transition: transform .3s ease, background .3s ease;
+    }
+    .carousel-btn:hover { transform: scale(1.1); background: rgba(250,248,245,.95); }
+    .carousel-counter {
+      font-family: 'Playfair Display', serif;
+      letter-spacing: .3em;
+    }
+
+    /* ------- Botón flotante de audio ---------- */
+    #audioToggle {
+      position: fixed;
+      right: 1rem; bottom: 1rem;
+      z-index: 70;
+      width: 3.4rem; height: 3.4rem;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, #B9BEC7, #8F959E);
+      display: grid; place-items: center;
+      box-shadow: 0 10px 24px rgba(30,41,59,.35);
+      transition: transform .3s ease;
+    }
+    #audioToggle:hover { transform: scale(1.09); }
+    #audioToggle::before {
+      content: '';
+      position: absolute; inset: -5px;
+      border-radius: 9999px;
+      border: 1px solid rgba(192,192,192,.6);
+      animation: ripple 2.4s ease-out infinite;
+    }
+    @keyframes ripple {
+      0% { transform: scale(.9); opacity: 1; }
+      100% { transform: scale(1.35); opacity: 0; }
+    }
+    .spin { animation: spin 4s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ------- Tarjetas de datos ---------- */
+    .data-card {
+      background: rgba(255,255,255,.65);
+      border: 1px solid rgba(192,192,192,.4);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+    }
+    .data-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(192,192,192,.9);
+      box-shadow: 0 18px 35px -20px rgba(30,41,59,.28);
+    }
+
+    /* ------- Esquinas ornamentales ---------- */
+    .ornate-corner::before,
+    .ornate-corner::after {
+      content: '';
+      position: absolute;
+      width: 34px; height: 34px;
+      border: 1px solid rgba(192,192,192,.75);
+      pointer-events: none;
+    }
+    .ornate-corner::before { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+    .ornate-corner::after { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+
+    /* ------- Cabecera de sección ---------- */
+    .section-eyebrow {
+      letter-spacing: .42em;
+      text-indent: .42em;
+    }
+
+    /* ------- Footer ---------- */
+    .footer-gradient {
+      background: linear-gradient(130deg, #151B27 0%, #1E293B 55%, #26364C 100%);
+    }
+  </style>
+</head>
+
+<body class="paper-bg antialiased min-h-screen">
+
+  <!-- ═══════════════ PRECARGADOR ═══════════════ -->
+  <div id="preloader">
+    <div class="loader-ring"></div>
+    <span class="loader-mono">P &amp; J</span>
+  </div>
+
+  <!-- ═══════════════ NAVEGACIÓN FIJA ═══════════════ -->
+  <nav id="topnav" class="fixed top-0 inset-x-0 z-50 px-4 py-4">
+    <div class="max-w-4xl mx-auto flex items-center justify-between">
+      <a href="#inicio" class="font-script text-2xl text-ink leading-none">P &amp; J</a>
+      <div class="hidden sm:flex items-center gap-8 text-[11px] tracking-[0.22em] uppercase text-slate-500">
+        <a href="#galeria"   class="hover:text-ink transition-colors duration-300">Galería</a>
+        <a href="#eucaristia" class="hover:text-ink transition-colors duration-300">Eucaristía</a>
+        <a href="#recepcion"  class="hover:text-ink transition-colors duration-300">Recepción</a>
+        <a href="#confirmacion" class="hover:text-ink transition-colors duration-300">RSVP</a>
+      </div>
+      <a href="https://wa.me/51927604468?text=%C2%A1Hola!%20Confirmo%20mi%20asistencia%20a%20las%20Bodas%20de%20Plata%20de%20Pascual%20y%20Judith."
+         target="_blank" rel="noopener"
+         class="sm:hidden inline-flex items-center justify-center rounded-full bg-ink text-white text-[11px] tracking-[0.15em] uppercase px-4 py-2 btn-shine">
+        RSVP
+      </a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <section id="inicio" class="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
+
+    <!-- Imagen de fondo difuminada -->
+    <div class="absolute inset-0 bg-cover bg-center scale-105" style="background-image:url('imagen-padres.jpg');"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/90 via-[#FAF8F5]/35 to-[#FAF8F5]/95"></div>
+    <div class="absolute inset-0" style="backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px);"></div>
+
+    <!-- Marco ornamental superior -->
+    <div class="absolute top-6 left-1/2 -translate-x-1/2 text-silver/80 select-none" aria-hidden="true">
+      <svg width="120" height="18" viewBox="0 0 120 18" fill="none" stroke="currentColor" stroke-width="0.8">
+        <path d="M0 9h38M82 9h38M60 0c-6 4.5 6 13.5 0 18M54 9h12" />
+      </svg>
+    </div>
+
+    <div class="relative z-10 flex flex-col items-center pt-20 pb-10">
+      <p class="mb-5 text-[11px] sm:text-xs tracking-[0.5em] uppercase text-slate-500" data-aos="fade-down">Con la Bendición de Dios</p>
+
+      <span class="mb-6 inline-flex items-center gap-3 rounded-full border border-silver-soft/70 bg-white/50 px-5 py-2 text-[10px] sm:text-[11px] tracking-[0.3em] uppercase text-slate-600 backdrop-blur-md" data-aos="fade-down">
+        <span class="text-silver">✦</span> 25 Años de Amor · Bodas de Plata <span class="text-silver">✦</span>
+      </span>
+
+      <h1 class="font-script text-[20vw] sm:text-8xl md:text-9xl leading-[0.9] text-ink drop-shadow-sm" data-aos="fade-up">
+        Pascual &amp; Judith
+      </h1>
+
+      <div class="w-44 foil-divider my-7" data-aos="fade-up"></div>
+
+      <blockquote class="max-w-2xl font-garamond italic text-slate-700 text-lg sm:text-xl lg:text-2xl leading-relaxed font-medium" data-aos="fade-up">
+        “El amor es paciente, es servicial; todo lo disculpa, todo lo cree, todo lo espera, todo lo soporta.”
+      </blockquote>
+      <p class="mt-3 text-[11px] tracking-[0.4em] uppercase text-slate-500" data-aos="fade-up">— 1 Corintios 13:4, 7 —</p>
+
+      <p class="max-w-xl mt-9 text-slate-600 text-sm sm:text-base font-light leading-loose" data-aos="fade-up">
+        Con la gracia de Dios y la alegría de haber recorrido 25 años juntos, llenos de fe, amor y familia,
+        nos complace invitarles a celebrar con nosotros nuestras <span class="text-foil font-semibold">Bodas de Plata</span>.
+      </p>
+
+      <!-- Monograma + flecha -->
+      <div class="mt-12 flex flex-col items-center gap-4" data-aos="fade-up">
+        <div class="ornate-corner relative grid place-items-center h-16 w-16 rounded-full border border-silver-soft/70">
+          <span class="font-script text-2xl text-slate-600">P·J</span>
+        </div>
+        <a href="#galeria" class="text-slate-400 hover:text-slate-600 transition-colors animate-bounce" aria-label="Descubrir la invitación">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ GALERÍA / CARRUSEL ═══════════════ -->
+  <section id="galeria" class="relative max-w-3xl mx-auto px-6 py-20 sm:py-24">
+    <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-silver-soft/80 to-transparent"></div>
+
+    <div class="text-center mb-10">
+      <p class="section-eyebrow text-[10px] sm:text-xs uppercase text-silver" data-aos="fade-up">Nuestra Historia</p>
+      <h2 class="font-serif text-3xl sm:text-4xl text-ink mt-3" data-aos="fade-up">25 años en imágenes</h2>
+      <div class="w-24 foil-divider my-5 mx-auto" data-aos="fade-up"></div>
+    </div>
+
+    <!-- Carrusel -->
+    <div class="relative" data-aos="zoom-in">
+      <div id="carousel" class="relative rounded-3xl overflow-hidden ornate-corner"
+           style="box-shadow: 0 40px 70px -30px rgba(30,41,59,.45); aspect-ratio: 4/3;">
+
+        <!-- Slide 1 -->
+        <div class="carousel-slide active">
+          <img src="Imagen1.jpg" alt="Fotografía 1 · El comienzo" class="w-full h-full object-cover" />
+          <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/70 to-transparent px-6 pt-16 pb-5 text-left">
+            <p class="font-script text-2xl text-white/95">El comienzo de un sueño</p>
+            <p class="text-[11px] tracking-[0.25em] uppercase text-silver-soft mt-1">1999</p>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="carousel-slide">
+          <img src="Imagen2.jpg" alt="Fotografía 2 · Nuestra familia" class="w-full h-full object-cover" />
+          <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/70 to-transparent px-6 pt-16 pb-5 text-left">
+            <p class="font-script text-2xl text-white/95">Frutos de nuestro amor</p>
+            <p class="text-[11px] tracking-[0.25em] uppercase text-silver-soft mt-1">Nuestra familia</p>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="carousel-slide">
+          <img src="Imagen3.jpg" alt="Fotografía 3 · Celebramos 25 años" class="w-full h-full object-cover" />
+          <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/70 to-transparent px-6 pt-16 pb-5 text-left">
+            <p class="font-script text-2xl text-white/95">Y hoy celebramos 25 años</p>
+            <p class="text-[11px] tracking-[0.25em] uppercase text-silver-soft mt-1">Bodas de Plata</p>
+          </div>
+        </div>
+
+        <!-- Contador de diapositivas -->
+        <div class="absolute top-4 right-5 text-white/90 text-sm carousel-counter bg-ink/30 backdrop-blur-sm rounded-full px-3 py-1">
+          <span id="carouselCurrent">01</span> / 03
+        </div>
+
+        <!-- Flechas -->
+        <button id="carouselPrev" class="carousel-btn absolute left-4 top-1/2 -translate-y-1/2" aria-label="Anterior">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button id="carouselNext" class="carousel-btn absolute right-4 top-1/2 -translate-y-1/2" aria-label="Siguiente">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Indicadores -->
+      <div id="carouselDots" class="flex items-center justify-center gap-2.5 mt-6"></div>
+      <p class="text-center text-[10px] tracking-[0.3em] uppercase text-slate-400 mt-3">Desliza para ver más</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════ SECCIÓN 1: EUCARISTÍA ═══════════════ -->
+  <section id="eucaristia" class="relative max-w-2xl mx-auto px-6 py-16 sm:py-20">
+    <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-silver-soft/80 to-transparent"></div>
+
+    <div class="flex flex-col items-center text-center">
+      <div class="ornate-corner relative mb-7 grid place-items-center h-20 w-20 rounded-full border border-silver-soft/70 bg-white/60" data-aos="zoom-in">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.1">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m-3-3h6M9 3l-3 3h6M9 3l-.25 11.5M15 3l-3 3h6L15 3" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v3M4 21h16" />
+        </svg>
+      </div>
+
+      <p class="section-eyebrow text-[10px] sm:text-xs uppercase text-silver" data-aos="fade-up">Misa de Acción de Gracias</p>
+      <h2 class="font-serif text-3xl sm:text-4xl text-ink mt-3" data-aos="fade-up">Eucaristía</h2>
+      <div class="w-24 foil-divider my-5" data-aos="fade-up"></div>
+
+      <div class="grid grid-cols-1 gap-4 w-full max-w-md mt-2" data-aos="fade-up">
+        <div class="data-card flex items-center justify-between rounded-2xl px-6 py-4">
+          <span class="text-slate-500 text-xs tracking-[0.2em] uppercase">Fecha</span>
+          <span class="font-serif text-xl text-ink">19 de Septiembre</span>
+        </div>
+        <div class="data-card flex items-center justify-between rounded-2xl px-6 py-4">
+          <span class="text-slate-500 text-xs tracking-[0.2em] uppercase">Hora</span>
+          <span class="font-serif text-xl text-ink">6:30 p. m.</span>
+        </div>
+        <div class="data-card flex items-center justify-between rounded-2xl px-6 py-4">
+          <span class="text-slate-500 text-xs tracking-[0.2em] uppercase">Lugar</span>
+          <span class="font-serif text-xl text-ink">Templo de Santo Domingo</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3 w-full max-w-md mt-8" data-aos="fade-up">
+        <a href="https://www.google.com/maps/search/?api=1&query=Templo+de+Santo+Domingo+Cusco"
+           target="_blank" rel="noopener"
+           class="btn-shine flex-1 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 bg-ink text-white text-sm font-medium">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+          </svg>
+          Ver Ubicación en Google Maps
+        </a>
+        <button onclick="addToCalendar('eucaristia')"
+                class="btn-shine flex-1 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 border border-silver-soft/80 bg-white text-slate-700 text-sm font-medium">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          Agregar a Google Calendar
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ SECCIÓN 2: RECEPCIÓN ═══════════════ -->
+  <section id="recepcion" class="relative max-w-2xl mx-auto px-6 py-16 sm:py-20">
+    <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-silver-soft/80 to-transparent"></div>
+
+    <div class="flex flex-col items-center text-center">
+      <div class="ornate-corner relative mb-7 grid place-items-center h-20 w-20 rounded-full border border-silver-soft/70 bg-white/60" data-aos="zoom-in">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.1">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7 3h10l-1 10a4 4 0 01-8 0L7 3z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 17v4m-3 1h6" />
+        </svg>
+      </div>
+
+      <p class="section-eyebrow text-[10px] sm:text-xs uppercase text-silver" data-aos="fade-up">Brindis &amp; Recepción</p>
+      <h2 class="font-serif text-3xl sm:text-4xl text-ink mt-3" data-aos="fade-up">Recepción Festiva</h2>
+      <div class="w-24 foil-divider my-5" data-aos="fade-up"></div>
+
+      <div class="grid grid-cols-1 gap-4 w-full max-w-md mt-2" data-aos="fade-up">
+        <div class="data-card flex items-center justify-between rounded-2xl px-6 py-4">
+          <span class="text-slate-500 text-xs tracking-[0.2em] uppercase">Hora</span>
+          <span class="font-serif text-xl text-ink">A continuación de la Eucaristía</span>
+        </div>
+        <div class="data-card flex items-center justify-between rounded-2xl px-6 py-4">
+          <span class="text-slate-500 text-xs tracking-[0.2em] uppercase">Lugar</span>
+          <span class="font-serif text-xl text-ink">Condominio Huáscar B-1</span>
+        </div>
+      </div>
+
+      <p class="mt-5 text-slate-500 text-sm flex items-center gap-2 justify-center" data-aos="fade-up">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-silver shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+        Frente al Estadio Universitario · a un costado del grifo Pecsa
+      </p>
+
+      <a href="https://www.google.com/maps/search/?api=1&query=Condominio+Hu%C3%A1scar+Cusco+Estadio+Universitario"
+         target="_blank" rel="noopener"
+         data-aos="fade-up"
+         class="btn-shine mt-8 inline-flex items-center justify-center gap-2 rounded-full px-8 py-3.5 bg-ink text-white text-sm font-medium">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+        Ver Ubicación de la Recepción
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════════ SECCIÓN 3: CONFIRMACIÓN Y MÚSICA ═══════════════ -->
+  <section id="confirmacion" class="relative max-w-2xl mx-auto px-6 py-16 sm:py-20">
+    <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-silver-soft/80 to-transparent"></div>
+
+    <div class="flex flex-col items-center text-center">
+
+      <!-- Contador regresivo -->
+      <p class="section-eyebrow text-[10px] sm:text-xs uppercase text-silver" data-aos="fade-up">La cuenta atrás</p>
+      <h2 class="font-serif text-3xl sm:text-4xl text-ink mt-3" data-aos="fade-up">Faltan para la celebración</h2>
+      <div class="w-24 foil-divider my-6 mx-auto" data-aos="fade-up"></div>
+
+      <div id="countdown" class="grid grid-cols-4 gap-3 sm:gap-4 w-full max-w-sm" data-aos="fade-up">
+        <div class="data-card flex flex-col items-center rounded-2xl py-5">
+          <span id="cd-days" class="font-serif text-4xl sm:text-5xl text-foil">00</span>
+          <span class="mt-1 text-[10px] tracking-[0.25em] uppercase text-slate-400">Días</span>
+        </div>
+        <div class="data-card flex flex-col items-center rounded-2xl py-5">
+          <span id="cd-hours" class="font-serif text-4xl sm:text-5xl text-foil">00</span>
+          <span class="mt-1 text-[10px] tracking-[0.25em] uppercase text-slate-400">Horas</span>
+        </div>
+        <div class="data-card flex flex-col items-center rounded-2xl py-5">
+          <span id="cd-mins" class="font-serif text-4xl sm:text-5xl text-foil">00</span>
+          <span class="mt-1 text-[10px] tracking-[0.25em] uppercase text-slate-400">Min</span>
+        </div>
+        <div class="data-card flex flex-col items-center rounded-2xl py-5">
+          <span id="cd-secs" class="font-serif text-4xl sm:text-5xl text-foil">00</span>
+          <span class="mt-1 text-[10px] tracking-[0.25em] uppercase text-slate-400">Seg</span>
+        </div>
+      </div>
+
+      <!-- Confirmación WhatsApp -->
+      <div class="ornate-corner relative mt-12 w-full max-w-md rounded-3xl bg-white/70 border border-silver-soft/60 p-8 backdrop-blur-md" data-aos="fade-up">
+        <p class="font-script text-3xl text-ink mb-2">¿Nos acompañas?</p>
+        <p class="text-slate-500 text-sm mb-6 font-light">Confirma tu asistencia por WhatsApp y celebraremos juntos.</p>
+        <a href="https://wa.me/51927604468?text=%C2%A1Hola!%20Confirmo%20mi%20asistencia%20a%20las%20Bodas%20de%20Plata%20de%20Pascual%20y%20Judith."
+           target="_blank" rel="noopener"
+           class="btn-shine inline-flex items-center justify-center gap-2.5 rounded-full px-8 py-4 bg-[#25D366] text-white text-sm font-semibold w-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+          </svg>
+          Confirmar Asistencia por WhatsApp
+        </a>
+        <p class="mt-4 text-[11px] tracking-[0.2em] uppercase text-slate-400">Anfitriones · Pascual &amp; Judith</p>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer-gradient ornate-corner relative mt-16 -mx-6 px-6 py-12 w-[calc(100%+3rem)] text-center rounded-[2rem]" data-aos="fade-up">
+        <div class="absolute top-8 left-1/2 -translate-x-1/2 text-silver-soft/50 select-none" aria-hidden="true">
+          <svg width="120" height="18" viewBox="0 0 120 18" fill="none" stroke="currentColor" stroke-width="0.8">
+            <path d="M0 9h38M82 9h38M60 0c-6 4.5 6 13.5 0 18M54 9h12" />
+          </svg>
+        </div>
+        <p class="font-script text-4xl text-white/95 mt-6">Los esperamos con alegría</p>
+        <div class="w-24 foil-divider divider-dark my-5 mx-auto"></div>
+        <p class="text-slate-300 text-base font-light tracking-wide">Pascual &amp; Judith</p>
+        <p class="text-slate-500 text-[11px] mt-3 font-light tracking-[0.3em] uppercase">Gracias por ser parte de nuestra historia</p>
+        <p class="mt-8 text-[10px] tracking-[0.35em] uppercase text-slate-600">Cusco · Septiembre 2026</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ BOTÓN FLOTANTE DE AUDIO ═══════════════ -->
+  <button id="audioToggle" type="button" aria-label="Reproducir música" title="Música de fondo">
+    <svg id="iconMusic" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white spin" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 18V5l12-2v13" />
+      <circle cx="6" cy="18" r="3" />
+      <circle cx="18" cy="16" r="3" />
+    </svg>
+    <svg id="iconPause" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+    </svg>
+  </button>
+
+  <!-- Elemento de audio oculto -->
+  <audio id="bgMusic" loop preload="none" src="musica-fondo.mp3"></audio>
+
+  <!-- ═══════════════ SCRIPTS ═══════════════ -->
+  <script>
+    /* ---------- Preloader ---------- */
+    window.addEventListener('load', () => {
+      setTimeout(() => document.getElementById('preloader').classList.add('hide'), 600);
+    });
+
+    /* ---------- Navegación con sombra al hacer scroll ---------- */
+    const topnav = document.getElementById('topnav');
+    window.addEventListener('scroll', () => {
+      topnav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    /* ---------- Contador Regresivo ---------- */
+    const TARGET_DATE = new Date('2026-09-19T18:30:00').getTime();
+
+    function updateCountdown() {
+      const diff = Math.max(0, TARGET_DATE - Date.now());
+      const pad = (n) => String(n).padStart(2, '0');
+      document.getElementById('cd-days').textContent  = pad(Math.floor(diff / 86400000));
+      document.getElementById('cd-hours').textContent = pad(Math.floor(diff / 3600000) % 24);
+      document.getElementById('cd-mins').textContent  = pad(Math.floor(diff / 60000) % 60);
+      document.getElementById('cd-secs').textContent  = pad(Math.floor(diff / 1000) % 60);
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    /* ---------- Carrusel de fotos ---------- */
+    const slides    = document.querySelectorAll('.carousel-slide');
+    const dotsBox   = document.getElementById('carouselDots');
+    const counter   = document.getElementById('carouselCurrent');
+    const prevBtn   = document.getElementById('carouselPrev');
+    const nextBtn   = document.getElementById('carouselNext');
+    let current     = 0;
+    let autoTimer   = null;
+    const TOTAL     = slides.length;
+
+    // Construir indicadores
+    slides.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Ir a la imagen ' + (i + 1));
+      dot.addEventListener('click', () => goTo(i));
+      dotsBox.appendChild(dot);
+    });
+
+    function goTo(index) {
+      current = (index + TOTAL) % TOTAL;
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === current));
+      dotsBox.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+      counter.textContent = String(current + 1).padStart(2, '0');
+    }
+
+    const next = () => goTo(current + 1);
+    const prev = () => goTo(current - 1);
+
+    function startAuto() {
+      stopAuto();
+      autoTimer = setInterval(next, 5000);
+    }
+    function stopAuto() { if (autoTimer) clearInterval(autoTimer); }
+
+    nextBtn.addEventListener('click', () => { next(); startAuto(); });
+    prevBtn.addEventListener('click', () => { prev(); startAuto(); });
+
+    // Pausar al pasar el cursor sobre el carrusel
+    const carouselBox = document.getElementById('carousel');
+    carouselBox.addEventListener('mouseenter', stopAuto);
+    carouselBox.addEventListener('mouseleave', startAuto);
+
+    // Soporte para deslizar (touch / swipe)
+    let touchStartX = 0;
+    carouselBox.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].clientX; stopAuto(); }, { passive: true });
+    carouselBox.addEventListener('touchend', (e) => {
+      const deltaX = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(deltaX) > 40) (deltaX < 0 ? next : prev)();
+      startAuto();
+    }, { passive: true });
+
+    // Flechas del teclado
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'ArrowLeft') prev();
+    });
+
+    startAuto();
+
+    /* ---------- Música de Fondo (solo con interacción) ---------- */
+    const bgMusic = document.getElementById('bgMusic');
+    const audioBtn = document.getElementById('audioToggle');
+    const iconMusic = document.getElementById('iconMusic');
+    const iconPause = document.getElementById('iconPause');
+
+    audioBtn.addEventListener('click', () => {
+      const willPlay = bgMusic.paused;
+      if (willPlay) {
+        bgMusic.play().catch(() => {});
+      } else {
+        bgMusic.pause();
+      }
+      toggleUI(willPlay);
+    });
+
+    bgMusic.addEventListener('play', () => toggleUI(true));
+    bgMusic.addEventListener('pause', () => toggleUI(false));
+
+    function toggleUI(playing) {
+      iconMusic.classList.toggle('hidden', playing);
+      iconPause.classList.toggle('hidden', !playing);
+    }
+
+    window.addEventListener('load', () => bgMusic.load());
+
+    /* ---------- Animaciones al hacer scroll (AOS-like ligero) ---------- */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('aos-animate');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('[data-aos]').forEach(el => observer.observe(el));
+
+    /* ---------- Agregar a Google Calendar ---------- */
+    function addToCalendar(kind) {
+      let start, end;
+      if (kind === 'eucaristia') {
+        start = new Date('2026-09-19T18:30:00');
+        end = new Date('2026-09-19T20:00:00');
+      }
+      const fmt = (d) => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+      const url = 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+        '&text=' + encodeURIComponent('Bodas de Plata · Pascual y Judith — Misa de Acción de Gracias') +
+        '&dates=' + fmt(start) + '/' + fmt(end) +
+        '&details=' + encodeURIComponent('Celebración de las Bodas de Plata de Pascual y Judith. Lugar: Templo de Santo Domingo, Cusco.') +
+        '&location=' + encodeURIComponent('Templo de Santo Domingo, Cusco');
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
