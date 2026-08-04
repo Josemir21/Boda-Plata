@@ -615,7 +615,7 @@
     </div>
   </section>
 
-  <audio id="bgMusic" loop autoplay preload="auto" src="musica-fondo.mp3"></audio>
+  <audio id="bgMusic" loop preload="auto" src="musica-fondo.mp3" muted></audio>
 
   <!-- ═══════════════ SCRIPTS ═══════════════ -->
   <script>
@@ -707,18 +707,22 @@
     /* ---------- Música de Fondo (reproducción automática) ---------- */
     const bgMusic = document.getElementById('bgMusic');
 
-    // Intento de reproducción automática al cargar la página.
+    // Intento de reproducción automática. Los navegadores solo permiten
+    // autoplay sin interacción si el audio arranca silenciado (muted),
+    // por eso se inicia así y el sonido se activa un instante después.
     function tryAutoplay() {
       if (!bgMusic.paused) return;
-      bgMusic.play().catch(() => {});
+      bgMusic.muted = true;
+      bgMusic.play().then(() => {
+        setTimeout(() => { bgMusic.muted = false; }, 200);
+      }).catch(() => {});
     }
 
     // Se intenta reproducir inmediatamente al abrir la página.
     tryAutoplay();
 
-    // Los navegadores bloquean el autoplay con sonido hasta que el usuario interactúa.
-    // Por eso también intentamos reproducir en la primera interacción (clic/toque/scroll),
-    // de modo que la música siempre suene sin necesidad de ningún botón.
+    // Respaldo: si el navegador bloquea el autoplay, la música arranca en
+    // la primera interacción (clic/toque/scroll), sin necesidad de botón.
     const firstInteractions = ['click', 'touchstart', 'scroll', 'keydown'];
     const startOnInteraction = () => { tryAutoplay(); removeInteractionListeners(); };
 
